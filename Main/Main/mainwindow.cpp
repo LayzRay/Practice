@@ -44,9 +44,32 @@ void MainWindow::on_pushButton_3_clicked()
 
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_2_clicked()
 {
-    QSerialPort::open();
+
+    QSerialPort port(ui -> comboBox ->currentText(), this);
+
+    if ( !port.open(QIODevice::ReadWrite) )
+    {
+        ui -> textBrowser -> append("COM-порт не открылся.");
+    }
+    else
+    {
+        ui -> textBrowser -> append("COM-порт открыт.");
+
+        port.setBaudRate(QSerialPort::Baud115200);
+        port.setDataBits(QSerialPort::Data8);
+        port.setStopBits(QSerialPort::OneStop);
+        port.setFlowControl(QSerialPort::NoFlowControl);
+        port.setParity(QSerialPort::NoParity);
+
+        QString data = ui -> lineEdit -> text();
+
+        port.write(data.toLocal8Bit());
+
+        port.close();
+
+    }
+
 }
 
