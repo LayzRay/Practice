@@ -5,6 +5,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
+#include <stdio.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

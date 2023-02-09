@@ -1,11 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui -> setupUi(this);
+
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    {
+
+    }
 
     QList <QSerialPortInfo> com_port_list = QSerialPortInfo::availablePorts();
 
@@ -49,7 +55,7 @@ void MainWindow::on_pushButton_2_clicked()
 
     QSerialPort port(ui -> comboBox ->currentText(), this);
 
-    if ( !port.open(QIODevice::ReadWrite) )
+    if ( !port.open( QIODevice::ReadWrite ) )
     {
         ui -> textBrowser -> append("COM-порт не открылся.");
     }
@@ -65,7 +71,9 @@ void MainWindow::on_pushButton_2_clicked()
 
         QString data = ui -> lineEdit -> text();
 
-        port.write(data.toLocal8Bit());
+        port.write( data.toUtf8() );
+
+        port.flush();
 
         port.close();
 
